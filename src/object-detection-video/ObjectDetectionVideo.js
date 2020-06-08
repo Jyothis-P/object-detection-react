@@ -5,7 +5,7 @@ import { getRetinaContext } from './retina-canvas'
 import { renderPredictions } from './render-predictions'
 
 const ObjectDetectionVideo = React.memo(
-  ({ model, onPrediction, fit, mirrored, render }) => {
+  ({ model, model2, onPrediction, fit, mirrored, render }) => {
     const videoRef = useRef()
     const canvasRef = useRef()
 
@@ -16,7 +16,7 @@ const ObjectDetectionVideo = React.memo(
     const detectFrame = useCallback(async () => {
       const predictions = await model.detect(videoRef.current)
       if (onPrediction) {
-        onPrediction(predictions)
+        onPrediction(predictions, videoRef, canvasRef, model2)
       }
 
       const wantedWidth = videoRef.current.offsetWidth
@@ -39,9 +39,9 @@ const ObjectDetectionVideo = React.memo(
 
       const ctx = getRetinaContext(canvasRef.current)
 
-      ctx.setWidth(wantedWidth)
-      ctx.setHeight(wantedHeight)
-      ctx.clearAll()
+      // ctx.setWidth(wantedWidth)
+      // ctx.setHeight(wantedHeight)
+      // ctx.clearAll()
 
       // Update predictions to match canvas.
       const offsetPredictions = predictions.map((prediction) => {
@@ -62,12 +62,12 @@ const ObjectDetectionVideo = React.memo(
       requestAnimationFrame(() => {
         detectFrame()
       })
-    }, [fit, mirrored, model, onPrediction, render])
+    }, [fit, mirrored, model, model2, onPrediction, render])
 
     if (canvasRef.current) {
       canvasRef.current.style.position = 'absolute'
       canvasRef.current.style.left = '0'
-      canvasRef.current.style.top = '0'
+      canvasRef.current.style.top = '100%'
     }
 
     if (videoRef.current) {
