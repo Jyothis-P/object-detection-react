@@ -9,16 +9,20 @@ import './index.css'
 const THRESH = 0.6;
 
 const weight = (x, bias) => {
-  return x + Math.max(1, Math.exp(bias+1))
+  if (bias < 0)
+    return x;
+  return x + 1000;
 }
 
 const sort = (buffer, avgHeight) => {
   let minY = Math.max.apply(Math, buffer.map(v => v[1]));
-  let line_thresh = minY + (avgHeight*3/4);
+  let line_thresh = minY + (avgHeight * 3 / 4);
 
-  buffer.sort(function(a, b) {
-    return weight(a[0], (line_thresh - a[1])) - weight(b[0], (line_thresh - b[1]));
+  buffer.sort(function (a, b) {
+    return weight(a[1], (line_thresh - a[2])) - weight(b[1], (line_thresh - b[2]));
   })
+
+  return buffer.reduce((buff, curr) => { return buff + curr[0] }, '')
 }
 
 const getNumber = async (model, canvasRef) => {
@@ -40,7 +44,7 @@ const getNumber = async (model, canvasRef) => {
       // console.log(letter)
     }
   });
-  let avg_height = heights/heights.length;
+  let avg_height = heights / heights.length;
   console.log('Sorted', sort(buffer, avg_height))
   console.log('Array', buffer);
 }
