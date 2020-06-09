@@ -1,0 +1,44 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.portrait {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 10px 10px 16px 0px darkgrey;
+    overflow: hidden;
+}
+
+input[type=text] {
+    border: 2px solid #2196F3;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 2em;
+    width: 100%;
+}
+
+.inputs {
+    width: 80%;
+    text-align: center;
+}
+
+label {
+    font-size: 1.4em;
+}
+
+.btn {
+    padding: 6px 11px;
+    color: white;
+    background-color: #2196F3;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.4em;
+}
+
+.heading {
+    font-weight: 400;
+    text-align: center;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 4px 4px 15px 0px grey;
+}

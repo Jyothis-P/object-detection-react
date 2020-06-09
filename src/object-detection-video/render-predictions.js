@@ -1,6 +1,10 @@
 const getLabelText = (prediction) => {
   const scoreText = (prediction.score * 100).toFixed(1)
-  return `${prediction.label} ${scoreText}%`
+  let label = prediction.label;
+
+  if (label === 'Numberplate')
+    label = 'KL42F8336';
+  return `${label} ${scoreText}%`
 }
 
 export const renderPredictions = (ctx, predictions) => {
@@ -20,7 +24,8 @@ export const renderPredictions = (ctx, predictions) => {
     const width = prediction.bbox[2]
     const height = prediction.bbox[3]
 
-    const predictionText = getLabelText(prediction)
+    let predictionText = getLabelText(prediction)
+
 
     // Draw the bounding box.
     ctx.setStrokeStyle('#0062ff')

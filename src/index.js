@@ -45,39 +45,24 @@ const getNumber = async (model, canvasRef) => {
     }
   });
   let avg_height = heights / heights.length;
-  console.log('Sorted', sort(buffer, avg_height))
-  console.log('Array', buffer);
+  let number = sort(buffer, avg_height);
+  console.log('Sorted', number);
+  return number;
 }
 
 
 const handlePrediction = (predictions, videoRef, canvasRef, model) => {
-  // console.timeEnd('detect')
-  // console.time('detect')
-  // console.log(predictions)
+  let numbers = []
   predictions.forEach(prediction => {
-    // console.log(prediction.class);
     if (prediction.class === 'Numberplate') {
-      // console.log(videoRef);
-      // console.log(canvasRef);
-
       const ctx = canvasRef.current.getContext('2d')
-      // const width = prediction.bbox[2]
-      // const height = prediction.bbox[3]
       ctx.clearRect(0, 0, '100%', '100%')
-      // canvasRef.current.style.width = width
-      // canvasRef.current.style.height = width
       ctx.drawImage(videoRef.current, ...prediction.bbox, 0, 0, 300, 150)
 
-      getNumber(model, canvasRef)
-
-      // videoRef.current.pause();
-      // videoRef.current.style.width = '100px'
-      // videoRef.current.style.height = '100px'
-
-      return true;
+      numbers.push(getNumber(model, canvasRef))
     }
   });
-
+  return numbers;
 }
 
 const render = (ctx, predictions) => {
@@ -108,7 +93,7 @@ const App = () => {
   console.log('model2', model2)
 
   return (
-    <div className="fillPage">
+    <div >
       <ObjectDetectionVideo
         model={model}
         model2={model2}
@@ -122,7 +107,6 @@ const App = () => {
         //             view's bounds is transparent.
         // fit="aspectFill"
         // mirrored:   mirror the video about its vertical axis.
-        mirrored
       />
     </div>
   )

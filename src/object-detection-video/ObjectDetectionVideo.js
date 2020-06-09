@@ -10,12 +10,14 @@ const ObjectDetectionVideo = React.memo(
     const canvasRef = useRef()
     const plateRef = useRef()
 
+
     useWebcam(videoRef, () => {
       detectFrame()
     })
 
     const detectFrame = useCallback(async () => {
       const predictions = await model.detect(videoRef.current)
+
       if (onPrediction) {
         onPrediction(predictions, videoRef, plateRef, model2)
       }
@@ -97,7 +99,7 @@ const ObjectDetectionVideo = React.memo(
       <div style={{ position: 'relative' }}>
         <video autoPlay playsInline muted ref={videoRef} />
         <canvas ref={canvasRef} />
-        <canvas ref={plateRef} />
+        <canvas ref={plateRef} hidden/>
       </div>
     )
   }
