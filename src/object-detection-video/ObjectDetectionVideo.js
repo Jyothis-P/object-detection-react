@@ -8,6 +8,7 @@ const ObjectDetectionVideo = React.memo(
   ({ model, model2, onPrediction, fit, mirrored, render }) => {
     const videoRef = useRef()
     const canvasRef = useRef()
+    const plateRef = useRef()
 
     useWebcam(videoRef, () => {
       detectFrame()
@@ -16,7 +17,7 @@ const ObjectDetectionVideo = React.memo(
     const detectFrame = useCallback(async () => {
       const predictions = await model.detect(videoRef.current)
       if (onPrediction) {
-        onPrediction(predictions, videoRef, canvasRef, model2)
+        onPrediction(predictions, videoRef, plateRef, model2)
       }
 
       const wantedWidth = videoRef.current.offsetWidth
@@ -39,9 +40,9 @@ const ObjectDetectionVideo = React.memo(
 
       const ctx = getRetinaContext(canvasRef.current)
 
-      // ctx.setWidth(wantedWidth)
-      // ctx.setHeight(wantedHeight)
-      // ctx.clearAll()
+      ctx.setWidth(wantedWidth)
+      ctx.setHeight(wantedHeight)
+      ctx.clearAll()
 
       // Update predictions to match canvas.
       const offsetPredictions = predictions.map((prediction) => {
@@ -67,7 +68,13 @@ const ObjectDetectionVideo = React.memo(
     if (canvasRef.current) {
       canvasRef.current.style.position = 'absolute'
       canvasRef.current.style.left = '0'
-      canvasRef.current.style.top = '100%'
+      canvasRef.current.style.top = '0'
+    }
+    
+    if (plateRef.current) {
+      plateRef.current.style.position = 'absolute'
+      plateRef.current.style.left = '0'
+      plateRef.current.style.top = '100%'
     }
 
     if (videoRef.current) {
@@ -90,6 +97,7 @@ const ObjectDetectionVideo = React.memo(
       <div style={{ position: 'relative' }}>
         <video autoPlay playsInline muted ref={videoRef} />
         <canvas ref={canvasRef} />
+        <canvas ref={plateRef} />
       </div>
     )
   }

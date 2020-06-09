@@ -81,23 +81,23 @@ const handlePrediction = (predictions, videoRef, canvasRef, model) => {
 }
 
 const render = (ctx, predictions) => {
-  // predictions.forEach((prediction) => {
-  //   const x = prediction.bbox[0]
-  //   const y = prediction.bbox[1]
-  //   const width = prediction.bbox[2]
-  //   const height = prediction.bbox[3]
+  predictions.forEach((prediction) => {
+    const x = prediction.bbox[0]
+    const y = prediction.bbox[1]
+    const width = prediction.bbox[2]
+    const height = prediction.bbox[3]
 
 
 
-  //   ctx.setStrokeStyle('#00ff00')
-  //   ctx.setLineWidth(4)
-  //   ctx.strokeRect(
-  //     Math.round(x),
-  //     Math.round(y),
-  //     Math.round(width),
-  //     Math.round(height)
-  //   )
-  // })
+    ctx.setStrokeStyle('#00ff00')
+    ctx.setLineWidth(4)
+    ctx.strokeRect(
+      Math.round(x),
+      Math.round(y),
+      Math.round(width),
+      Math.round(height)
+    )
+  })
 }
 
 const App = () => {
@@ -113,7 +113,7 @@ const App = () => {
         model={model}
         model2={model2}
         onPrediction={handlePrediction}
-        render={render}
+        // render={render}
         // aspectFill: The option to scale the video to fill the size of the view.
         //             Some portion of the video may be clipped to fill the view's
         //             bounds.
