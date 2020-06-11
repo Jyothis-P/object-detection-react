@@ -53,7 +53,7 @@ const getNumber = async (model, canvasRef) => {
 
 let t = 0;
 
-const handlePrediction = (predictions, videoRef, canvasRef, model) => {
+const handlePrediction = (predictions, videoRef, canvasRef, model, resultRef) => {
   let numbers = []
   predictions.forEach(prediction => {
     if (prediction.class === 'Numberplate') {
@@ -73,6 +73,7 @@ const handlePrediction = (predictions, videoRef, canvasRef, model) => {
         console.log("Time taken:", (Date.now() - t)/1000, 's')
         // console.log(res);
         console.log("Result:", res.data);
+        resultRef.current.innerHTML += "<p>" + res.data + "</p>"
       })
       
       numbers.push(getNumber(model, canvasRef))

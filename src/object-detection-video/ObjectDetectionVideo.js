@@ -11,6 +11,7 @@ const ObjectDetectionVideo = React.memo(
     const videoRef = useRef()
     const canvasRef = useRef()
     const plateRef = useRef()
+    const resultRef = useRef()
 
 
     useWebcam(videoRef, () => {
@@ -20,12 +21,13 @@ const ObjectDetectionVideo = React.memo(
     const detectFrame = useCallback(async () => {
       const predictions = await model.detect(videoRef.current)
 
-      
+
       const PRED_FREQ = 1; //The request to the server is sent every PRED_FREQ seconds.
       if ((Date.now() - lastPredTime) / 1000 > PRED_FREQ) {
 
         if (onPrediction) {
-          onPrediction(predictions, videoRef, plateRef, model2)
+          let pred = onPrediction(predictions, videoRef, plateRef, model2, resultRef)
+
         }
 
         lastPredTime = Date.now()
@@ -111,6 +113,12 @@ const ObjectDetectionVideo = React.memo(
         <video autoPlay playsInline muted ref={videoRef} />
         <canvas ref={canvasRef} />
         <canvas ref={plateRef} hidden />
+        <div class="number-plates row my-2">
+          <div class="col col-md-2">Detected number plates: </div>
+          <div class="col col-md-4" id="plates" ref={resultRef}>
+            <p>KL24R2466</p>
+          </div>
+        </div>
       </div>
     )
   }
