@@ -20,7 +20,8 @@ const ObjectDetectionVideo = React.memo(
     const detectFrame = useCallback(async () => {
       const predictions = await model.detect(videoRef.current)
 
-      if ((Date.now() - lastPredTime) / 1000 > 1) {
+      const PRED_FREQ = 1; //The request to the server is sent every PRED_FREQ seconds.
+      if ((Date.now() - lastPredTime) / 1000 > PRED_FREQ) {
 
         if (onPrediction) {
           onPrediction(predictions, videoRef, plateRef, model2)
