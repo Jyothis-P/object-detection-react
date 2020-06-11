@@ -51,6 +51,8 @@ const getNumber = async (model, canvasRef) => {
 }
 
 
+let t = 0;
+
 const handlePrediction = (predictions, videoRef, canvasRef, model) => {
   let numbers = []
   predictions.forEach(prediction => {
@@ -61,13 +63,16 @@ const handlePrediction = (predictions, videoRef, canvasRef, model) => {
 
       var dataURL = canvasRef.current.toDataURL();
 
-      let base = 'http://aea03443eb4b.ngrok.io/'
+      let base = 'http://127.0.0.1:5000/'
       let url = base + 'api'
 
+      console.log('Sending number plate to server.')
+      t = Date.now();
       axios.post(url, { 'image': dataURL })
       .then(res => {
-        console.log(res);
-        console.log(res.data);
+        console.log("Time taken:", (Date.now() - t)/1000, 's')
+        // console.log(res);
+        console.log("Result:", res.data);
       })
       
       numbers.push(getNumber(model, canvasRef))
