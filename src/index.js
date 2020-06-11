@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import axios from 'axios';
 import useModel from './useModel'
 import ObjectDetectionVideo from './object-detection-video/ObjectDetectionVideo'
 
@@ -59,6 +59,17 @@ const handlePrediction = (predictions, videoRef, canvasRef, model) => {
       ctx.clearRect(0, 0, '100%', '100%')
       ctx.drawImage(videoRef.current, ...prediction.bbox, 0, 0, 300, 150)
 
+      var dataURL = canvasRef.current.toDataURL();
+
+      let base = 'http://78674a862fad.ngrok.io/'
+      let url = base + 'api'
+
+      axios.post(url, { 'image': dataURL })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+      
       numbers.push(getNumber(model, canvasRef))
     }
   });
@@ -107,6 +118,7 @@ const App = () => {
         //             view's bounds is transparent.
         // fit="aspectFill"
         // mirrored:   mirror the video about its vertical axis.
+        mirrored
       />
     </div>
   )
