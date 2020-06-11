@@ -4,6 +4,8 @@ import useWebcam from './useWebcam'
 import { getRetinaContext } from './retina-canvas'
 import { renderPredictions } from './render-predictions'
 
+let lastPredTime = Date.now()
+
 const ObjectDetectionVideo = React.memo(
   ({ model, model2, onPrediction, fit, mirrored, render }) => {
     const videoRef = useRef()
@@ -18,9 +20,16 @@ const ObjectDetectionVideo = React.memo(
     const detectFrame = useCallback(async () => {
       const predictions = await model.detect(videoRef.current)
 
-      if (onPrediction) {
-        onPrediction(predictions, videoRef, plateRef, model2)
+      if ((Date.now() - lastPredTime) / 1000 > 1) {
+
+        if (onPrediction) {
+          onPrediction(predictions, videoRef, plateRef, model2)
+        }
+
+        lastPredTime = Date.now()
+
       }
+
 
       const wantedWidth = videoRef.current.offsetWidth
       const wantedHeight = videoRef.current.offsetHeight
@@ -72,7 +81,7 @@ const ObjectDetectionVideo = React.memo(
       canvasRef.current.style.left = '0'
       canvasRef.current.style.top = '0'
     }
-    
+
     if (plateRef.current) {
       plateRef.current.style.position = 'absolute'
       plateRef.current.style.left = '0'
@@ -99,7 +108,7 @@ const ObjectDetectionVideo = React.memo(
       <div style={{ position: 'relative' }}>
         <video autoPlay playsInline muted ref={videoRef} />
         <canvas ref={canvasRef} />
-        <canvas ref={plateRef} hidden/>
+        <canvas ref={plateRef} hidden />
       </div>
     )
   }

@@ -61,7 +61,7 @@ const handlePrediction = (predictions, videoRef, canvasRef, model) => {
 
       var dataURL = canvasRef.current.toDataURL();
 
-      let base = 'http://78674a862fad.ngrok.io/'
+      let base = 'http://aea03443eb4b.ngrok.io/'
       let url = base + 'api'
 
       axios.post(url, { 'image': dataURL })
