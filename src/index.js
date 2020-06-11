@@ -74,6 +74,9 @@ const handlePrediction = (predictions, videoRef, canvasRef, model, resultRef) =>
         // console.log(res);
         console.log("Result:", res.data);
         resultRef.current.innerHTML += "<p>" + res.data + "</p>"
+
+        // Sending data to the Node server to be saved to the db.
+        axios.post('http://127.0.0.1:4000/numberplate', { 'vehicle': res.data })
       })
       
       numbers.push(getNumber(model, canvasRef))
