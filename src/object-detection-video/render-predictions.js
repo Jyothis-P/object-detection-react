@@ -2,8 +2,6 @@ const getLabelText = (prediction) => {
   const scoreText = (prediction.score * 100).toFixed(1)
   let label = prediction.label;
 
-  if (label === 'Numberplate')
-    label = 'KL42F8336';
   return `${label} ${scoreText}%`
 }
 
