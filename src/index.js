@@ -79,10 +79,10 @@ const handlePrediction = (predictions, videoRef, canvasRef, model, resultRef) =>
         axios.post('http://127.0.0.1:4000/numberplate', { 'vehicle': res.data })
       })
       
-      numbers.push(getNumber(model, canvasRef))
+      // numbers.push(getNumber(model, canvasRef))
     }
   });
-  return numbers;
+  return true;
 }
 
 const render = (ctx, predictions) => {
@@ -107,7 +107,8 @@ const render = (ctx, predictions) => {
 
 const App = () => {
   const model = useModel(process.env.PUBLIC_URL + '/model_detection')
-  const model2 = useModel(process.env.PUBLIC_URL + '/model_web')
+  // const model2 = useModel(process.env.PUBLIC_URL + '/model_web')
+  const model2 = ''
 
   console.log('model1', model)
   console.log('model2', model2)
