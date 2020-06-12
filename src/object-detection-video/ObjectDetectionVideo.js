@@ -86,11 +86,11 @@ const ObjectDetectionVideo = React.memo(
       canvasRef.current.style.top = '0'
     }
 
-    if (plateRef.current) {
-      plateRef.current.style.position = 'absolute'
-      plateRef.current.style.left = '0'
-      plateRef.current.style.top = '100%'
-    }
+    // if (plateRef.current) {
+    //   plateRef.current.style.position = 'absolute'
+    //   plateRef.current.style.left = '0'
+    //   plateRef.current.style.top = '100%'
+    // }
 
     if (videoRef.current) {
       videoRef.current.style.width = '100%'
@@ -109,15 +109,19 @@ const ObjectDetectionVideo = React.memo(
     }
 
     return (
-      <div style={{ position: 'relative' }}>
-        <video autoPlay playsInline muted ref={videoRef} />
-        <canvas ref={canvasRef} />
-        <canvas ref={plateRef} hidden />
-        <div class="number-plates row my-2">
-          <div class="col col-md-2">Detected number plates: </div>
-          <div class="col col-md-4" id="plates" ref={resultRef}>
-            <p>KL24R2466</p>
+      <div>
+        <div class="portrait" style={{ position: 'relative' }}>
+          <video autoPlay playsInline muted ref={videoRef} />
+          <canvas ref={canvasRef} />
+          <div class="number-plates row my-2">
+            <div class="col col-md-2">Detected number plates: </div>
+            <div class="col col-md-4" id="plates" ref={resultRef}>
+              <p>KL24R2466</p>
+            </div>
           </div>
+        </div>
+        <div class="portrait">
+          <canvas ref={plateRef} />
         </div>
       </div>
     )
