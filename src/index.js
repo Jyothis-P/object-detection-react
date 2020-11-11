@@ -68,16 +68,16 @@ const handlePrediction = (predictions, videoRef, canvasRef, model, resultRef) =>
 
       console.log('Sending number plate to server.')
       t = Date.now();
-      axios.post(url, { 'image': dataURL })
-      .then(res => {
-        console.log("Time taken:", (Date.now() - t)/1000, 's')
-        // console.log(res);
-        console.log("Result:", res.data);
-        resultRef.current.innerHTML += "<p>" + res.data + "</p>"
+      // axios.post(url, { 'image': dataURL })
+      // .then(res => {
+      //   console.log("Time taken:", (Date.now() - t)/1000, 's')
+      //   // console.log(res);
+      //   console.log("Result:", res.data);
+      //   resultRef.current.innerHTML += "<p>" + res.data + "</p>"
 
-        // Sending data to the Node server to be saved to the db.
-        axios.post('http://127.0.0.1:4000/numberplate', { 'vehicle': res.data })
-      })
+      //   // Sending data to the Node server to be saved to the db.
+      //   axios.post('http://127.0.0.1:4000/numberplate', { 'vehicle': res.data })
+      // })
       
       // numbers.push(getNumber(model, canvasRef))
     }

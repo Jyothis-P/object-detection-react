@@ -40,7 +40,6 @@ RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 tf.random.set_seed(RANDOM_SEED)
 
-
 # os.makedirs("snapshots", exist_ok=True)
 CLASSES_FILEnum = 'classesnum.csv'
 
@@ -63,11 +62,11 @@ def sort_list(a, b, c, range):
     l1 = []
     l2 = []
     for li, yi in ziply:
-        if(yi <= range):
+        if (yi <= range):
             l1.append(li)
         else:
             l2.append(li)
-    l1 = l1+l2
+    l1 = l1 + l2
     return l1
 
 
@@ -100,10 +99,10 @@ def predict(image):
         ymax.append(b[3])
         draw_box(image, b, color=color)
         numnum.append(labels_to_namesnum[label])
-    if(flag):
+    if (flag):
         zipymin = zip(ymin, ymax)
         yminmin, yminmax = min(zipymin)
-        range = yminmin+(yminmax-yminmin)/2
+        range = yminmin + (yminmax - yminmin) / 2
         numnum = sort_list(numnum, list2, ymin, range)
         for x in numnum:
             number += x

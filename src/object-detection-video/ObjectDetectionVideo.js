@@ -1,10 +1,33 @@
 import React, { useRef, useCallback } from 'react'
 
+import axios from 'axios';
 import useWebcam from './useWebcam'
 import { getRetinaContext } from './retina-canvas'
 import { renderPredictions } from './render-predictions'
 
 let lastPredTime = Date.now()
+
+
+function predictNumber(canvasRef, resultRef){
+  console.log('Haiiiii')
+  var dataURL = canvasRef.current.toDataURL();
+  console.log(dataURL)
+  let base = 'http://127.0.0.1:5000/'
+  let url = base + 'api'
+
+  console.log('Sending number plate to server.')
+  let t = Date.now();
+  axios.post(url, { 'image': dataURL })
+  .then(res => {
+    console.log("Time taken:", (Date.now() - t)/1000, 's')
+    // console.log(res);
+    console.log("Result:", res.data);
+    resultRef.current.innerHTML += "<p>" + res.data + "</p>"
+
+    // Sending data to the Node server to be saved to the db.
+    axios.post('http://127.0.0.1:4000/numberplate', { 'vehicle': res.data })
+  })
+}
 
 const ObjectDetectionVideo = React.memo(
   ({ model, model2, onPrediction, fit, mirrored, render }) => {
@@ -87,9 +110,9 @@ const ObjectDetectionVideo = React.memo(
     }
 
     if (plateRef.current) {
-      plateRef.current.style.position = 'absolute'
-      plateRef.current.style.left = '5%'
-      plateRef.current.style.top = '5%';
+      plateRef.current.style.position = 'relative'
+      // plateRef.current.style.left = '5%'
+      // plateRef.current.style.top = '5%';
       plateRef.current.style['border-radius'] = '5px';
     }
 
@@ -128,6 +151,9 @@ const ObjectDetectionVideo = React.memo(
           </div>
         </div>
         <canvas ref={plateRef} />
+        <button onClick={() => predictNumber(plateRef, resultRef)}>
+          Click me!
+        </button>
       </div >
     )
   }
